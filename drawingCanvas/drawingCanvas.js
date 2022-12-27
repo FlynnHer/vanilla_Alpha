@@ -47,3 +47,4 @@ function onMouseUp(e) {
 canvas.addEventListener("mousemove", onMouseMove);
 canvas.addEventListener("mousedown", onMouseDown)
 canvas.addEventListener("mouseup", onMouseUp)
+canvas.addEventListener("mouseleave", onMouseUp)
