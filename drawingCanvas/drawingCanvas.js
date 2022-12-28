@@ -1,20 +1,19 @@
-const canvas = document.querySelector("canvas");
-const ctx = canvas.getContext("2d");
+const $canvas = document.querySelector("canvas");
+const ctx = $canvas.getContext("2d");
+
 const $lineWidth = document.getElementById("line-width");
- 
-// https://flatuicolors.com/
-// 배열로 캐스팅해서 선언
-const $color = document.getElementById("color")
+const $color = document.getElementById("color")   // https://flatuicolors.com/
 const $colorOptions = Array.from(document.getElementsByClassName("color-option"));
 const $btnMode = document.getElementById("mode-btn");
 const $btnClear = document.getElementById("clear-btn");
+const $fileInput = document.getElementById("file");
 
 //-- 초기화 ----------------------------
 const CANVAS_W = 800;
 const CANVAS_H= 800;
 const INIT_COLOR = "#000000";
-canvas.width = CANVAS_W;
-canvas.height = CANVAS_H;
+$canvas.width = CANVAS_W;
+$canvas.height = CANVAS_H;
 ctx.lineWidth = $lineWidth.value;      // 두께 지정
 ctx.strokeStyle = INIT_COLOR;
 ctx.fillStyle = INIT_COLOR;
@@ -71,15 +70,26 @@ function btnClearClick(e) {
   $color.value = INIT_COLOR;
   // ctx.stroke();
 }
+function onFileChange(e) {
+  // console.log(e.target.files[0]);
+  const file = e.target.files[0];
+  const url = URL.createObjectURL(file);  // 가상 메모리 이미지 임시 저장 주소
+  const image = new Image();
+  image.src = url;
+  image.onload = function() {
+    ctx.drawImage(image, 1, 1);
+  }
+}
 //-- attach Event Listener -----------
-canvas.addEventListener("mousemove", onMouseMove);
-canvas.addEventListener("mousedown", onMouseDown);
-canvas.addEventListener("mouseup", onMouseUp);
-canvas.addEventListener("click", onMouseClick);
+$canvas.addEventListener("mousemove", onMouseMove);
+$canvas.addEventListener("mousedown", onMouseDown);
+$canvas.addEventListener("mouseup", onMouseUp);
+$canvas.addEventListener("click", onMouseClick);
 // canvas.addEventListener("mouseleave", onMouseUp);
 $lineWidth.addEventListener("change", onLineWidthChange);
 $color.addEventListener("change", onColorChange);
 $colorOptions.forEach(color => color.addEventListener("click", onColorClick));
 $btnMode.addEventListener("click", btnModeClick);
 $btnClear.addEventListener("click", btnClearClick);
+$fileInput.addEventListener("change", onFileChange);
 // console.log($colorOptions)
