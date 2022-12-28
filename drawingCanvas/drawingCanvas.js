@@ -1,5 +1,7 @@
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
+const $lineWidth = document.getElementById("line-width");
+const $color = document.getElementById("color");
 canvas.width = 800;
 canvas.height = 800;
 
@@ -13,7 +15,7 @@ const colors = [
   "#2980b9"
 ] // https://flatuicolors.com/
 
-ctx.lineWidth = 2;      // 두께 지정
+ctx.lineWidth = $lineWidth.value;      // 두께 지정
 ctx.strokeStyle = "red";
 let isPainting = false; // 원점 지정 Flag
 
@@ -32,6 +34,7 @@ function onMouseMove(e) {
     ctx.stroke();
     return;
   }
+  ctx.beginPath();
   ctx.moveTo(e.offsetX, e.offsetY);
   // console.log("moveTo", e.offsetX, e.offsetY)
 }
@@ -44,7 +47,16 @@ function onMouseUp(e) {
   isPainting = false;
 }
 // canvas.addEventListener("click", onClick);
+function onLineWidthChange(e) {
+  ctx.lineWidth = e.target.value;
+  console.log(e.target.value);
+}
+function onColorChange(e) {
+  ctx.strokeStyle = e.target.value;
+}
 canvas.addEventListener("mousemove", onMouseMove);
 canvas.addEventListener("mousedown", onMouseDown)
 canvas.addEventListener("mouseup", onMouseUp)
 canvas.addEventListener("mouseleave", onMouseUp)
+$lineWidth.addEventListener("change", onLineWidthChange)
+$color.addEventListener("change", onColorChange)
